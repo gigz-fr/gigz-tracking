@@ -13,22 +13,27 @@ module.exports = {
   initProxy: async function(getTokenUrl, checkTokenUrl) {
     this._init();
 
-    proxy = {
-      getToken: getTokenUrl,
-      checkToken: checkTokenUrl,
-      token: null
-    };
+    try {
+      proxy = {
+        getToken: getTokenUrl,
+        checkToken: checkTokenUrl,
+        token: null
+      };
 
-    // Get token from cookies
-    proxyToken = this._getCookie("gigz-tracking-token");
+      // Get token from cookies
+      var proxyToken = this._getCookie("gigz-tracking-token");
 
-    // TODO: Request token
-    if (!proxyToken || !(await this._checkProxyToken(proxyToken))) {
-      proxyToken = await this._getProxyToken();
-      this._setCookie("gigz-tracking-token", proxyToken);
+      // TODO: Request token
+      if (!proxyToken || !(await this._checkProxyToken(proxyToken))) {
+        proxyToken = await this._getProxyToken();
+        this._setCookie("gigz-tracking-token", proxyToken);
+      }
+
+      proxy.token = proxyToken;
     }
-
-    proxy.token = proxyToken;
+    catch(e) {
+      proxy = null;
+    }
   },
   _init: function() {
     // Get distinct id from cookies
@@ -54,8 +59,9 @@ module.exports = {
       xhr.open('GET', proxy.getToken);
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-          if (xhr.response.status == 1) {
-            resolve(xhr.response.result.session_key);
+          var result = JSON.parse(xhr.responseText);
+          if (result.status == 1) {
+            resolve(result.result.session_key);
           }
           else {
             reject();
@@ -83,8 +89,13 @@ module.exports = {
   track: function(eventName, parameters) {
     var xhr = new XMLHttpRequest();
     
-    if (token == null && (proxy == null || proxy.token == null)) {
+    if (token == null && proxy == null) {
       throw new Error('Invalid API token');  
+    }
+
+    if (proxy != null && proxy.token == null) {
+      // Wait that the token is recovered (relaunch the function once the current tasks are finished)
+      return setTimeout(async () => await this.track(eventName, parameters), 0);
     }
 
     xhr.open('POST', `${apiUrl}/log/${token || proxy.token}/track`);
