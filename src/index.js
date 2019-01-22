@@ -23,7 +23,6 @@ module.exports = {
       // Get token from cookies
       var proxyToken = this._getCookie("gigz-tracking-token");
 
-      // TODO: Request token
       if (!proxyToken || !(await this._checkProxyToken(proxyToken))) {
         proxyToken = await this._getProxyToken();
         this._setCookie("gigz-tracking-token", proxyToken);
