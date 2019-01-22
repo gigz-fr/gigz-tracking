@@ -1,5 +1,3 @@
-const uuidv4 = require('uuid/v4');
-
 const apiUrl = 'https://gigz.simbals.com';
 let distinct_id = null;
 let token = null;
@@ -39,9 +37,15 @@ module.exports = {
     distinct_id = this._getCookie("gigz-tracking-distinctid");
 
     if (!distinct_id) {
-      distinct_id = uuidv4();
+      distinct_id = this._generateDistinctId();
       this._setCookie("gigz-tracking-distinctid", distinct_id);
     }
+  },
+  _generateDistinctId() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   },
   _getCookie(name) {
     var selectedCookie = document.cookie.split(';').map(c => c.split('=')).filter(c => c[0].trim() == name);
@@ -132,6 +136,6 @@ module.exports = {
     xhr.send(JSON.stringify(body));
   },
   reset: function() {
-    distinct_id = uuidv4();
+    distinct_id = this._generateDistinctId();
   }
 };
