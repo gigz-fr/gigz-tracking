@@ -41,3 +41,14 @@ And the following when the user signs out
 ```
 gigz.reset();
 ```
+
+
+## Usage via a CDN
+
+```
+<script src="https://cdn.jsdelivr.net/npm/gigz-tracking@latest/dist/gigz.umd.min.js"></script>
+<script>
+	gigz.initToken("YOUR-TOKEN");
+	gigz.track("My first action");
+</script>
+```
