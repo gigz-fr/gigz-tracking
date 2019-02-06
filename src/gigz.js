@@ -53,7 +53,7 @@ module.exports = {
     return selectedCookie.length ? selectedCookie[0][1].trim() : null;
   },
   _setCookie(name, value) {
-    document.cookie = `${name}=${value}`;
+    document.cookie = `${name}=${value}; path=/`;
   },
   _getProxyToken() {
     return new Promise((resolve, reject) => {
