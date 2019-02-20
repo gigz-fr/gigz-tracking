@@ -147,6 +147,9 @@ module.exports = {
     };
 
     xhr.send(JSON.stringify(body));
+
+    distinct_id = userId;
+    this._setCookie("gigz-tracking-distinctid", distinct_id);
   },
   reset: function() {
     distinct_id = this._generateDistinctId();
