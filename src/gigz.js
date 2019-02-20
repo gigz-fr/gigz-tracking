@@ -89,7 +89,7 @@ module.exports = {
       xhr.send();
     });
   },
-  track: function(eventName, parameters, retry = false) {
+  track: function(eventName, parameters, retry = 0) {
     var xhr = new XMLHttpRequest();
     
     if (token == null && proxy == null) {
@@ -97,12 +97,12 @@ module.exports = {
     }
 
     if (proxy != null && proxy.token == null) {
-      if (retry) {
+      if (retry > 10) {
         throw new Error('Unable to retrieve a token');
       }
 
       // Wait that the token is recovered (relaunch the function once the current tasks are finished)
-      return setTimeout(async () => await this.track(eventName, parameters, true), 0);
+      return setTimeout(async () => await this.track(eventName, parameters, retry++), 100);
     }
 
     xhr.open('POST', `${apiUrl}/log/${token || proxy.token}/track`);
@@ -118,7 +118,7 @@ module.exports = {
 
     xhr.send(JSON.stringify(body));
   },
-  engage: function(userId, firstName, email, creationTime, retry = false) {
+  engage: function(userId, firstName, email, creationTime, retry = 0) {
     var xhr = new XMLHttpRequest();
 
     if (token == null && proxy == null) {
@@ -126,12 +126,12 @@ module.exports = {
     }
 
     if (proxy != null && proxy.token == null) {
-      if (retry) {
+      if (retry > 10) {
         throw new Error('Unable to retrieve a token');
       }
 
       // Wait that the token is recovered (relaunch the function once the current tasks are finished)
-      return setTimeout(async () => await this.engage(userId, firstName, email, creationTime, true), 0);
+      return setTimeout(async () => await this.engage(userId, firstName, email, creationTime, retry++), 100);
     }
 
     xhr.open('POST', `${apiUrl}/log/${token || proxy.token}/engage`);
