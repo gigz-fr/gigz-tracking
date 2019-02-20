@@ -89,16 +89,20 @@ module.exports = {
       xhr.send();
     });
   },
-  track: function(eventName, parameters) {
+  track: function(eventName, parameters, retry = false) {
     var xhr = new XMLHttpRequest();
     
     if (token == null && proxy == null) {
-      throw new Error('Invalid API token');  
+      throw new Error('Invalid API token');
     }
 
     if (proxy != null && proxy.token == null) {
+      if (retry) {
+        throw new Error('Unable to retrieve a token');
+      }
+
       // Wait that the token is recovered (relaunch the function once the current tasks are finished)
-      return setTimeout(async () => await this.track(eventName, parameters), 0);
+      return setTimeout(async () => await this.track(eventName, parameters, true), 0);
     }
 
     xhr.open('POST', `${apiUrl}/log/${token || proxy.token}/track`);
@@ -114,11 +118,20 @@ module.exports = {
 
     xhr.send(JSON.stringify(body));
   },
-  engage: function(userId, firstName, email, creationTime) {
+  engage: function(userId, firstName, email, creationTime, retry = false) {
     var xhr = new XMLHttpRequest();
 
-    if (token == null && (proxy == null || proxy.token == null)) {
+    if (token == null && proxy == null) {
       throw new Error('Invalid API token');  
+    }
+
+    if (proxy != null && proxy.token == null) {
+      if (retry) {
+        throw new Error('Unable to retrieve a token');
+      }
+
+      // Wait that the token is recovered (relaunch the function once the current tasks are finished)
+      return setTimeout(async () => await this.engage(userId, firstName, email, creationTime, true), 0);
     }
 
     xhr.open('POST', `${apiUrl}/log/${token || proxy.token}/engage`);
