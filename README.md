@@ -52,3 +52,18 @@ gigz.reset();
 	gigz.track("My first action");
 </script>
 ```
+
+## Improve the user location
+
+By default, the users location will be determined based on the user IP. This method is not very accurate, so if you want to improve the user location, you can use the Geolocation API to specify the current user location to the library.
+
+```
+if (navigator && navigator.geolocation) {
+	navigator.geolocation.getCurrentPosition(
+		position => gigz.setUserLocation(position.coords.latitude, position.coords.longitude),
+		err => { }
+	);
+
+	navigator.geolocation.watchPosition(position => gigz.setUserLocation(position.coords.latitude, position.coords.longitude));
+}
+```

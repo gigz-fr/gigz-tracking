@@ -2,6 +2,7 @@ const apiUrl = 'https://gigz.simbals.com';
 let distinct_id = null;
 let token = null;
 let proxy = null;
+let coords = null;
 
 module.exports = {
   initToken: function(newToken) {
@@ -89,6 +90,9 @@ module.exports = {
       xhr.send();
     });
   },
+  setUserLocation(latitude, longitude) {
+    coords = {latitude, longitude};
+  },
   track: function(eventName, parameters, retry = 0) {
     var xhr = new XMLHttpRequest();
     
@@ -112,6 +116,7 @@ module.exports = {
     var body = {
       action: eventName,
       distinct_id: distinct_id,
+      location: coords ? { latitude: coords.latitude, longitude: coords.longitude } : null,
       agent: navigator.userAgent,
       properties: parameters != null ? parameters : {}
     };
@@ -140,6 +145,7 @@ module.exports = {
 
     var body = {
       distinct_id: distinct_id,
+      location: coords ? { latitude: coords.latitude, longitude: coords.longitude } : null,
       user_id: userId,
       name: firstName,
       email: email,
