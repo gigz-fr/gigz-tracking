@@ -14,6 +14,10 @@
     "name": "Paul-DS",
     "url": "https://github.com/Paul-DS"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gigz-fr/gigz-tracking.git"
+  },
   "scripts": {
     "watch": "babel src -d dist --experimental -w",
     "lint": "eslint src",
