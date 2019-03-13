@@ -1,5 +1,3 @@
-import 'babel-polyfill';
-
 const apiUrl = 'https://gigz.simbals.com';
 let distinct_id = null;
 let token = null;
