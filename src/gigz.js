@@ -1,4 +1,4 @@
-const apiUrl = 'https://gigz.simbals.com';
+const apiUrl = 'https://gigz-log.simbals.com';
 let distinct_id = null;
 let token = null;
 let proxy = null;
