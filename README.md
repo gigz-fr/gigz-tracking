@@ -54,7 +54,7 @@ gigz.reset();
 
 ## Use properties
 
-Properties are custom parameter that you associate with logs, in order to improve segmentation.
+Properties are custom parameter that you can associate with logs, in order to improve segmentation.
 You can pass any properties, as following:
 
 ```
