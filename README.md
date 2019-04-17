@@ -42,7 +42,6 @@ And the following when the user signs out
 gigz.reset();
 ```
 
-
 ## Usage via a CDN
 
 ```
@@ -52,6 +51,16 @@ gigz.reset();
 	gigz.track("My first action");
 </script>
 ```
+
+## Use properties
+
+Properties are custom parameter that you associate with logs, in order to improve segmentation.
+You can pass any properties, as following:
+
+```
+gigz.track("A custom log", { custom_parameter: "AAA", another_parameter: "BBB" });
+```
+
 
 ## Improve the user location
 
