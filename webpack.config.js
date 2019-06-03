@@ -1,11 +1,11 @@
-var webpack = require('webpack');
 var path = require('path');
 
-module.exports = function(env) {
+module.exports = function() {
   var SRC_DIR = path.resolve(__dirname, 'src');
   var BUILD_DIR = path.resolve(__dirname, 'dist');
 
   const baseConfig =  {
+    mode: 'production',
     entry: ['babel-polyfill', './src/gigz.js'],
     module : {
       rules : [
@@ -22,6 +22,10 @@ module.exports = function(env) {
     resolve: {
       modules: [SRC_DIR, "node_modules"],
       extensions: ['.js']
+    },
+    performance: {
+      maxEntrypointSize: 512000,
+      maxAssetSize: 512000
     }
   };
 
