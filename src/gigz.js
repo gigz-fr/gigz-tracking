@@ -1,8 +1,15 @@
+
+import gdprModals from './gdpr-modals.js';
+
 const apiUrl = 'https://gigz-log.simbals.com';
 let distinct_id = null;
 let token = null;
 let proxy = null;
 let coords = null;
+let enabled = true;
+let allowPerformanceCookies = false;
+let allowFeatureCookies = false;
+let allowTargetedAdCookies = false;
 
 module.exports = {
   initToken: function(newToken) {
@@ -32,6 +39,20 @@ module.exports = {
     catch(e) {
       proxy = null;
     }
+  },
+  disable: function(disable) {
+    enabled = !disable;
+  },
+  displayModal: function(save) {
+    const callback = (performance, feature, targetedAd) => {
+      allowPerformanceCookies = performance;
+      allowFeatureCookies = feature;
+      allowTargetedAdCookies = targetedAd;
+      if(typeof save === "function") save(performance, feature, targetedAd);
+    }
+
+    gdprModals.loadModals(callback);
+    gdprModals.showFirstModal();
   },
   _init: function() {
     // Get distinct id from cookies
@@ -94,6 +115,10 @@ module.exports = {
     coords = {latitude, longitude};
   },
   track: function(eventName, parameters, retry = 0) {
+    if (!enabled) {
+      return;
+    }
+
     var xhr = new XMLHttpRequest();
     
     if (token == null && proxy == null) {
@@ -124,6 +149,10 @@ module.exports = {
     xhr.send(JSON.stringify(body));
   },
   engage: function(userId, firstName, email, creationTime, retry = 0) {
+    if (!enabled) {
+      return;
+    }
+
     var xhr = new XMLHttpRequest();
 
     if (token == null && proxy == null) {

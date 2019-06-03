@@ -76,3 +76,19 @@ if (navigator && navigator.geolocation) {
 	navigator.geolocation.watchPosition(position => gigz.setUserLocation(position.coords.latitude, position.coords.longitude));
 }
 ```
+
+## GDPR
+
+You can display a predefined GDPR modal with the following code:
+```
+gigz.displayModal((allowPerformanceCookies, allowFeatureCookies, allowTargetedAdsCookies) => {
+	// Whatever you need to do with this authorizations
+
+	if (!allowTargetedAdsCookies) {
+		// Disable the gigz tracking if the user refused the targeted ads cookies
+		gigz.disable(true);
+	}
+});
+```
+
+Don't forget to save the results of the GDPR modal in the cookies to avoid asking the user each time he will open the page.

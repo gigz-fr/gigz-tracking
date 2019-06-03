@@ -1,6 +1,6 @@
 {
   "name": "gigz-tracking",
-  "version": "0.5.4",
+  "version": "0.6.0",
   "description": "Tracking library for Gigz",
   "license": "ISC",
   "main": "dist/gigz.js",
@@ -21,9 +21,7 @@
   "scripts": {
     "watch": "babel src -d dist --experimental -w",
     "lint": "eslint src",
-    "build": "npm run build:es && npm run build:umd",
-    "build:es": "babel --plugins transform-runtime -d dist src && minify dist/gigz.js -o dist/gigz.min.js",
-    "build:umd": "babel --plugins transform-es2015-modules-umd src/gigz.js -o dist/gigz.umd.js && combine-files node_modules/babel-polyfill/dist/polyfill.js,dist/gigz.umd.js dist/gigz.umd.js && minify dist/gigz.umd.js -o dist/gigz.umd.min.js",
+    "build": "webpack",
     "prepare": "npm run build",
     "postpublish": "git push origin master --follow-tags",
     "deploy": "git pull --rebase origin master && git push origin master"
@@ -34,6 +32,7 @@
     "babel-cli": "^6.22.2",
     "babel-eslint": "^7.1.1",
     "babel-jest": "^20.0.3",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-env": "^1.7.0",
@@ -41,7 +40,10 @@
     "eslint": "^3.19.0",
     "eslint-config-prettier": "^2.1.1",
     "eslint-config-xo": "^0.18.2",
-    "eslint-plugin-babel": "^4.1.1"
+    "eslint-plugin-babel": "^4.1.1",
+    "raw-loader": "^2.0.0",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0"
