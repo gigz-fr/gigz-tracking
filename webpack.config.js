@@ -6,7 +6,6 @@ module.exports = function() {
 
   const baseConfig =  {
     mode: 'production',
-    entry: ['babel-polyfill', './src/gigz.js'],
     module : {
       rules : [
         {
@@ -32,6 +31,7 @@ module.exports = function() {
   return [
     {
       ...baseConfig,
+      entry: ['./src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.js',
@@ -44,6 +44,7 @@ module.exports = function() {
     },
     {
       ...baseConfig,
+      entry: ['./src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.min.js',
@@ -56,6 +57,7 @@ module.exports = function() {
     },
     {
       ...baseConfig,
+      entry: ['babel-polyfill', './src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.umd.js',
@@ -68,6 +70,7 @@ module.exports = function() {
     },
     {
       ...baseConfig,
+      entry: ['babel-polyfill', './src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.umd.min.js',
