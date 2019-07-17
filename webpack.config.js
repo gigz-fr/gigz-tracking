@@ -10,7 +10,8 @@ module.exports = function() {
       rules : [
         {
           test : /\.js?/,
-          loader : 'babel-loader'
+          loader : 'babel-loader',
+          exclude: path.resolve(__dirname, 'node_modules/')
         },
         {
           test: /\.html$/,
@@ -57,7 +58,7 @@ module.exports = function() {
     },
     {
       ...baseConfig,
-      entry: ['babel-polyfill', './src/gigz.js'],
+      entry: ['./src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.umd.js',
@@ -70,7 +71,7 @@ module.exports = function() {
     },
     {
       ...baseConfig,
-      entry: ['babel-polyfill', './src/gigz.js'],
+      entry: ['./src/gigz.js'],
       output: {
         path: BUILD_DIR,
         filename: 'gigz.umd.min.js',
