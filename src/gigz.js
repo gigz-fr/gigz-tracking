@@ -3,6 +3,7 @@ import gdprModals from './gdpr-modals.js';
 
 const apiUrl = 'https://gigz-log.simbals.com';
 let distinct_id = null;
+let campaign = null;
 let token = null;
 let proxy = null;
 let coords = null;
@@ -61,6 +62,17 @@ module.exports = {
     if (!distinct_id) {
       distinct_id = this._generateDistinctId();
       this._setCookie("gigz-tracking-distinctid", distinct_id);
+    }
+
+    // Get UTM campaign from URL
+    const params = window.location.search.slice(1).split('&').reduce((container, param) => {
+      const splittedParam = param.split('=');
+      container[splittedParam[0]] = splittedParam[1];
+      return container;
+    }, {});
+
+    if (params.utm_campaign) {
+      campaign = params.utm_campaign;
     }
   },
   _generateDistinctId() {
@@ -138,12 +150,20 @@ module.exports = {
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
+    if (parameters == null) {
+      parameters = {};
+    }
+
+    if (campaign) {
+      parameters.campaign = campaign;
+    }
+
     var body = {
       action: eventName,
       distinct_id: distinct_id,
       location: coords ? { latitude: coords.latitude, longitude: coords.longitude } : null,
       agent: navigator.userAgent,
-      properties: parameters != null ? parameters : {}
+      properties: parameters
     };
 
     xhr.send(JSON.stringify(body));
