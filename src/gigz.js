@@ -44,7 +44,7 @@ module.exports = {
   disable: function(disable) {
     enabled = !disable;
   },
-  displayModal: function(save) {
+  getGdprAuthorizations: function(save) {
     const callback = (performance, feature, targetedAd) => {
       allowPerformanceCookies = performance;
       allowFeatureCookies = feature;
@@ -52,8 +52,25 @@ module.exports = {
       if(typeof save === "function") save(performance, feature, targetedAd);
     }
 
-    gdprModals.loadModals(callback);
-    gdprModals.showFirstModal();
+    if (this._getCookie("gigz-gdpr-filled")) {
+      // Get from cookies
+      callback(
+        this._getCookie("gigz-allow-performance-cookies"),
+        this._getCookie("gigz-allow-feature-cookies"),
+        this._getCookie("gigz-allow-targetedad-cookies")
+      );
+    }
+    else {
+      // Get from modal
+      gdprModals.loadModals((performance, feature, targetedAd) => {
+        this._setCookie("gigz-gdpr-filled", true);
+        this._setCookie("gigz-allow-performance-cookies", performance);
+        this._setCookie("gigz-allow-feature-cookies", feature);
+        this._setCookie("gigz-allow-targetedad-cookies", targetedAd);
+        callback(performance, feature, targetedAd);
+      });
+      gdprModals.showFirstModal();
+    }
   },
   _init: function() {
     // Get distinct id from cookies
