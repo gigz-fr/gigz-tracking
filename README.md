@@ -91,4 +91,4 @@ gigz.getGdprAuthorizations((allowPerformanceCookies, allowFeatureCookies, allowT
 });
 ```
 
-The RGPD popup will open only the first time. After that, the authorizations will be stored in cookies in order to avoid asking the user permissions again.
+The GDPR popup will open only the first time. After that, the authorizations will be stored in cookies in order to avoid asking the user permissions again.
