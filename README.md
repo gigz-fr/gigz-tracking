@@ -79,9 +79,9 @@ if (navigator && navigator.geolocation) {
 
 ## GDPR
 
-You can display a predefined GDPR modal with the following code:
+You can display a predefined GDPR popup with the following code:
 ```
-gigz.displayModal((allowPerformanceCookies, allowFeatureCookies, allowTargetedAdsCookies) => {
+gigz.getGdprAuthorizations((allowPerformanceCookies, allowFeatureCookies, allowTargetedAdsCookies) => {
 	// Whatever you need to do with this authorizations
 
 	if (!allowTargetedAdsCookies) {
@@ -91,4 +91,4 @@ gigz.displayModal((allowPerformanceCookies, allowFeatureCookies, allowTargetedAd
 });
 ```
 
-Don't forget to save the results of the GDPR modal in the cookies to avoid asking the user each time he will open the page.
+The RGPD popup will open only the first time. After that, the authorizations will be stored in cookies in order to avoid asking the user permissions again.
