@@ -91,6 +91,19 @@ module.exports = {
     if (params.utm_campaign) {
       campaign = params.utm_campaign;
     }
+
+    // Insert Xandr pixel
+    const xandrPixel = document.createElement('img');
+    xandrPixel.width = 1;
+    xandrPixel.height = 1;
+    xandrPixel.src = `https://secure.adnxs.com/getuid?https://backstage.gigz.fr/mapuserid?user_id=$UID&distinct_id=${distinct_id}`;
+
+    if (document.body) {
+      document.body.appendChild(xandrPixel);
+    }
+    else {
+      document.onload = () => document.body.appendChild(xandrPixel);
+    }
   },
   _generateDistinctId() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
