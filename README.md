@@ -81,13 +81,9 @@ if (navigator && navigator.geolocation) {
 
 You can display a predefined GDPR popup with the following code:
 ```
-gigz.getGdprAuthorizations((allowPerformanceCookies, allowFeatureCookies, allowTargetedAdsCookies) => {
-	// Whatever you need to do with this authorizations
-
-	if (!allowTargetedAdsCookies) {
-		// Disable the gigz tracking if the user refused the targeted ads cookies
-		gigz.disable(true);
-	}
+gigz.getGdprAuthorizations(consentData => {
+	// Whatever you need to do with the user consentment
+	// The data is structured as defined in the [Transparency and Consent Framework](https://github.com/InteractiveAdvertisingBureau/Consent-String-SDK-JS/).
 });
 ```
 

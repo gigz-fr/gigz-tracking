@@ -1,0 +1,293 @@
+<style>
+    #gigz-gdpr-mask {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 15001;
+    }
+
+    #gigz-gdpr-modal {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #fff;
+        padding: 1rem;
+        box-sizing: border-box;
+        z-index: 15001;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    #gigz-gdpr-modal h2 {
+        margin-top: 1rem;
+    }
+
+    #gigz-gdpr-modal p {
+        text-align: justify;
+    }
+
+    #gigz-gdpr-modal .flex-container {
+        display: flex;
+    }
+
+    #gigz-gdpr-modal .left-container {
+        flex-grow: 1;
+        padding-right: 1rem;
+    }
+
+    #gigz-gdpr-modal .right-container {
+        flex-grow: 0;
+        flex-shrink: 0;
+        flex-basis: 300px;
+    }
+
+    #gigz-gdpr-modal button {
+        background-color: rgb(32, 206, 179);
+        border-radius: .25rem;
+        padding: 1rem;
+        width: 100%;
+        border: 0;
+        color: white;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-accept-all,
+    #gigz-gdpr-modal .gigz-gdpr-refuse-all {
+        width: calc(50% - 2px);
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-save-quit {
+        display: block;
+        margin: 1rem auto 0;
+        width: auto;
+    }
+
+    #gigz-gdpr-modal a {
+        display: block;
+        text-align: center;
+        margin: 5px auto 0;
+    }
+
+    #gigz-gdpr-modal a,
+    #gigz-gdpr-modal a:hover,
+    #gigz-gdpr-modal a:visited {
+        color: black;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-back {
+        text-align: left;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-table {
+        display: block;
+        max-height: 200px;
+        overflow: auto;
+    }
+
+    #gigz-gdpr-modal table {
+        border-collapse: collapse;
+    }
+
+    #gigz-gdpr-modal table td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        width: 100%;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch {
+        width: 80px;
+        text-align: center;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input {
+        width: 1.75rem;
+        height: 1rem;
+        opacity: 0;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input ~ div {
+        position: relative;
+        pointer-events: none;
+        width: 1.75rem;
+        margin: 0 auto 5px;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input ~ div::before {
+        box-sizing: border-box;
+        position: absolute;
+        top: -1.15rem;
+        left: 0rem;
+        display: block;
+        width: 1.75rem;
+        height: 1rem;
+        pointer-events: none;
+        content: "";
+        background-color: #fff;
+        border: #adb5bd solid 1px;
+        border-radius: .5rem;
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input:checked ~ div::before {
+        color: #fff;
+        border-color: #ff2d81;
+        background-color: #ff2d81;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input ~ div::after {
+        box-sizing: border-box;
+        position: absolute;
+        display: block;
+        content: "";
+        background: no-repeat 50%/50% 50%;
+        top: calc(-1.15rem + 2px);
+        left: calc(2px);
+        width: calc(1rem - 4px);
+        height: calc(1rem - 4px);
+        background-color: #adb5bd;
+        border-radius: .5rem;
+        transition: transform .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-transform .15s ease-in-out;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input ~ .gigz-gdpr-disabled {
+        display: block;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input:checked ~ .gigz-gdpr-disabled {
+        display: none;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input ~ .gigz-gdpr-enabled {
+        display: none;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input:checked ~ .gigz-gdpr-enabled {
+        display: block;
+    }
+
+    #gigz-gdpr-modal .gigz-gdpr-switch input:checked~div::after {
+        background-color: #fff;
+        -webkit-transform: translateX(.75rem);
+        transform: translateX(.75rem);
+    }
+
+    #gigz-gdpr-footer {
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    #gigz-gdpr-footer img {
+        vertical-align: middle;
+        margin-left: 4px;
+    }
+
+    @media screen and (max-width: 600px) {
+        #gigz-gdpr-modal,
+        #gigz-gdpr-modal table {
+            font-size: 14px;
+        }
+
+        #gigz-gdpr-modal .flex-container {
+            flex-direction: column;
+        }
+
+        #gigz-gdpr-modal .right-container {
+            padding: 0;
+        }
+
+        #gigz-gdpr-modal .right-container {
+            flex-basis: auto;
+            width: 100%;
+        }
+
+        #gigz-gdpr-modal .gigz-gdpr-more-options,
+        #gigz-gdpr-modal .gigz-gdpr-accept {
+            margin-bottom: 1rem;
+        }
+    }
+
+    @media screen and (max-width: 360px) {
+        #gigz-gdpr-modal {
+            padding: 0.6rem;
+        }
+
+        #gigz-gdpr-modal,
+        #gigz-gdpr-modal table {
+            font-size: 13px;
+        }
+
+        #gigz-gdpr-modal button {
+            padding: 0.6rem;
+        }
+
+        #gigz-gdpr-modal .gigz-gdpr-table {
+            max-height: 160px;
+        }
+    }
+</style>
+
+<div id="gigz-gdpr-mask"></div>
+<div id="gigz-gdpr-modal" role="dialog" aria-labelledby="gigz-gdpr-title" aria-hidden="true" >
+
+    <div id="gigz-gdpr-home">
+        <div class="flex-container">
+            <div class="left-container">
+                <h2 id="gigz-gdpr-title">{{modal-title}}</h2>
+                <p>{{modal-description}}</p>
+            </div>
+            <div class="right-container" style="align-self: center">
+                <button class="gigz-gdpr-more-options">{{more-options}}</button>
+                <button class="gigz-gdpr-accept">{{accept}}</button>
+                <a href="#" class="gigz-gdpr-show-purposes-list">{{display-purposes-list}}</a>
+                <a href="#" class="gigz-gdpr-show-vendors-list">{{display-vendors-list}}</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="gigz-gdpr-purposes" style="display: none">
+        <a href="#" class="gigz-gdpr-back">{{back}}</a>
+        <div class="flex-container">
+            <div class="left-container">
+                <h2>{{modal-title}}</h2>
+                <p>{{purposes-description}}</p>
+            </div>
+            <div class="right-container" style="align-self: flex-end">
+                <button class="gigz-gdpr-refuse-all">{{refuse-all}}</button>
+                <button class="gigz-gdpr-accept-all">{{accept-all}}</button>
+            </div>
+        </div>
+        <div class="gigz-gdpr-table">
+            <table></table>
+        </div>
+        <div class="gigz-gdpr-show-vendors-list"><a href="#">{{display-vendors-list}}</a></div>
+        <button class="gigz-gdpr-save-quit">{{save-quit}}</button>
+    </div>
+
+    <div id="gigz-gdpr-vendors" style="display: none">
+        <a href="#" class="gigz-gdpr-back">{{back}}</a>
+        <div class="flex-container">
+            <div class="left-container">
+                <h2>{{modal-title}}</h2>
+                <p>{{vendors-description}}</p>
+            </div>
+            <div class="right-container" style="align-self: flex-end">
+                <button class="gigz-gdpr-refuse-all">{{refuse-all}}</button>
+                <button class="gigz-gdpr-accept-all">{{accept-all}}</button>
+            </div>
+        </div>
+        <div class="gigz-gdpr-table">
+            <table></table>
+        </div>
+        <div class="gigz-gdpr-show-purposes-list"><a href="#">{{display-purposes-list}}</a></div>
+        <button class="gigz-gdpr-save-quit">{{save-quit}}</button>
+    </div>
+
+    <div id="gigz-gdpr-footer">
+        Powered by <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAiCAYAAAAge+tMAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAABcSAAAXEgFnn9JSAAAAB3RJTUUH5AISDAEqCms+swAAA3lJREFUWMPtmGtojmEYx38jZo0NzSkfRHOeKVMo50M5lWazD8Qs84EcEspxiuQs5y98WIQylJgyMeaDokUIrc2ptg+TYUzDMl+uR1dX9/O879ve5VWuetp7/e/ruu//cz/3dbgXR2TSFkiXv+VAMzEuPYDTQlQ/s2KZdI6DsH46xyLpA4bkG+CZwfJijfRRQzBXjW1U+NRYIr3MkJ5sxmcJfiuWSA80pDc7bJKB+Fg7Iq8V6bf8I5JndntSgG06sAUYFgvE6xXpigC7M+YFl/xN0lmGzLoA2xeOfG5lMvAc6B4hj07ANqAKaAK+ApeBfn4O9wyRbgGTNwONxj7LYdMMXAxBsifQXvSRIYrdej8y3vM+YLEZqtxrn+PGrlbwfY5+Jx4YpXy/yNglhTUBDcAPhQ20ZGYaEpcCiJ9XR+Oh8rnj2M1Mg2WbKlyn9DHAXiE7V+z7q/FUF5mdhviGEMfEKzy7lE+VsRsBTFH6OmV7WR69Zo7xHxlQAP/IdTNJpo/dChlfIPpc5VMnWKp8Zg8fDyQpvVjNp3d8kcLTFL42KJIrDPEMH7sfJoPoKvsZOOgIqPHAdqXPU/7ljuDuYo5sN+CGrN0ITNCEPpnFBjhIb5WxwwqLdxDdBFxQelegVOlpyv+lwqebTfwFvPLJLl4W4psZGGRIp6ixxIBslO3YSYAnPpvSaF4oP0Q69J6O3gQ1ZmCaIVcp+LGAhqzWkQrrRb/quDX1chSwa0p/JzGUBHSQr7sTOKUJlJpJ9quxIsG+++RzV4tgm7TFCrvtaBtqVPU+AiT4xFgbC6xyfI41JmgHK/ulplA0A3cdxKsV9lTh9mieaUmvEnSmZiu7NQofp36fVTaPHT1MW6BAjt1u6Uc8m/ktIZ7hQ1qnxoUKzzcvXGDOvrerKxxrJUil9XyHt7RDTBJC+4GJQDtTCW1fogNsThjzF0tf4tqgBgm+qIu34AuFTQuzmxwqwR1OqlseTdI71MT9HHhQN5lsiJUBJSYb6fEr0STeIJM+MLhXWA4F+Baq1JgiWLVgRaL3kZcPdYGJSPqq3dij8D5hHpMPptqtVH76djQEuBnN3R6tFjqp8PuCnQjh/1EyDBLA3lyrW/summjO4DngkfyuDMPfa85+hvhfTatIoSP6y0y6DJKx0lfnAr2jQSguAttcqaAf5QJcwn+JXH4DfGjJOGlFDsQAAAAASUVORK5CYII=">
+    </div>
+</div>

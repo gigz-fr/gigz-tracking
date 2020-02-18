@@ -1,5 +1,6 @@
 
-import gdprModals from './gdpr-modals.js';
+import { ConsentString } from 'consent-string';
+import gdprModals from './gdpr-modal.js';
 
 const apiUrl = 'https://gigz-log.simbals.com';
 let distinct_id = null;
@@ -8,9 +9,6 @@ let token = null;
 let proxy = null;
 let coords = null;
 let enabled = true;
-let allowPerformanceCookies = false;
-let allowFeatureCookies = false;
-let allowTargetedAdCookies = false;
 
 module.exports = {
   initToken: function(newToken) {
@@ -44,32 +42,20 @@ module.exports = {
   disable: function(disable) {
     enabled = !disable;
   },
-  getGdprAuthorizations: function(save) {
-    const callback = (performance, feature, targetedAd) => {
-      allowPerformanceCookies = performance;
-      allowFeatureCookies = feature;
-      allowTargetedAdCookies = targetedAd;
-      if(typeof save === "function") save(performance, feature, targetedAd);
-    }
-
-    if (this._getCookie("gigz-gdpr-filled")) {
-      // Get from cookies
-      callback(
-        this._getCookie("gigz-allow-performance-cookies"),
-        this._getCookie("gigz-allow-feature-cookies"),
-        this._getCookie("gigz-allow-targetedad-cookies")
-      );
+  getGdprAuthorizations: function(callback) {
+    const consentCookie = this._getCookie("consentstring");
+    if (consentCookie) {
+      callback(new ConsentString(consentCookie));
     }
     else {
       // Get from modal
-      gdprModals.loadModals((performance, feature, targetedAd) => {
-        this._setCookie("gigz-gdpr-filled", true);
-        this._setCookie("gigz-allow-performance-cookies", performance);
-        this._setCookie("gigz-allow-feature-cookies", feature);
-        this._setCookie("gigz-allow-targetedad-cookies", targetedAd);
-        callback(performance, feature, targetedAd);
+      gdprModals(consentData => {
+        this._setCookie("consentstring", consentData.getConsentString());
+
+        if (callback) {
+          callback(consentData);
+        }
       });
-      gdprModals.showFirstModal();
     }
   },
   _init: function() {
