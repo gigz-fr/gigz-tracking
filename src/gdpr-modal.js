@@ -16,7 +16,7 @@ module.exports = callback => {
     consentData.setConsentLanguage('en');
 
     if (window.navigator.userLanguage || window.navigator.language) {
-        var browserLanguage = 'window.navigator.userLanguage || window.navigator.language';
+        var browserLanguage = window.navigator.userLanguage || window.navigator.language;
         if (browserLanguage.startsWith('fr')) {
             language = gdprModalFr;
             consentData.setConsentLanguage('fr');
