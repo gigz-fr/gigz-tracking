@@ -44,8 +44,8 @@ module.exports = callback => {
         var tr = document.createElement('tr');
         tr.innerHTML = `
             <td>
-                <h3>${purpose.name}</h3>
-                <p>${purpose.description}</p>
+                <h3>${language[`purpose${purpose.id}-name`]}</h3>
+                <p>${language[`purpose${purpose.id}-description`]}</p>
             </td>
             <td>
                 <div class="gigz-gdpr-switch">
